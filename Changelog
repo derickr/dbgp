@@ -1,3 +1,7 @@
+Thu Oct 28 15:06:05 CEST 2004 Derick Rethans <derick@derickrethans.nl>
+debugger_protocol.txt:
+- Clarified base64 encoding practises.
+
 Fri Oct 22 20:11:44 CEST 2004 Derick Rethans <derick@derickrethans.nl>
 :
 - Added a Changelog file
