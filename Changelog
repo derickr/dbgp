@@ -1,3 +1,7 @@
+Wed Nov 03 11:26:23 CET 2004 Derick Rethans <derick@derickrethans.nl>
+debugger_protocol.txt:
+- Added the undefined type to common data types.
+
 Thu Oct 28 15:06:05 CEST 2004 Derick Rethans <derick@derickrethans.nl>
 debugger_protocol.txt:
 - Clarified base64 encoding practises.
