@@ -352,7 +352,7 @@ with a stringified integer representing the length of the XML data
 packet.  The length and XML data are separated by a NULL byte.  The
 XML data is ended with a NULL byte.  Neither the IDE or debugger engine
 packets may contain NULL bytes within the packet since it is used as
-a separator.  Binary data must be encoded using base64. ::
+a separator.  Data must be encoded using base64. ::
 
     IDE:       command [SPACE] [args] -- data [NULL]
     DEBUGGER:  [NUMBER] [NULL] XML(data) [NULL]
@@ -1563,6 +1563,8 @@ debugger engine ::
         ...data...
     </response>
 
+When the encoding attribute is not present then the default value of "none"
+is assumed.
 
 7.14 source
 -----------
@@ -2059,6 +2061,10 @@ where,
 
 A. ChangeLog
 ============
+
+2004-10-28
+- 6 Clarify encoding for data passed in commands with the -- option.
+- 7.13 Clarify the default encoding for property values.
 
 2004-05-16
 
