@@ -1428,6 +1428,11 @@ resource:
     of the type mapping, and should be considered
     experimental, and not generally available in
     implementations of this protocol.
+undefined:
+	This is used when a variable exists in the
+	local scope but does not have any value yet.
+	This is optional, it is also correct to not
+	return the property at all instead.
 
 For the most part, this protocol treats array's and hashes in the
 same way, placing the key or index into the name attribute of the
@@ -2061,6 +2066,8 @@ where,
 
 A. ChangeLog
 ============
+2004-11-03
+- 7.12.1 Added the 'undefined' type.
 
 2004-10-28
 - 6 Clarify encoding for data passed in commands with the -- option.
