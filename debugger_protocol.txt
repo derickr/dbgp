@@ -124,34 +124,34 @@ init packet: ::
 
 Attributes in the init element can include:
     
-    =============== ========================================================
-    Attribute       Description
-    =============== ========================================================
-    appid           defined by the debugger engine
-    idekey          defined by the user.  The DBGP_IDEKEY environment
-                    variable SHOULD be used if it is available,
-                    otherwise setting this value is debugger engine
-                    implementation specific.  This value may be empty.
-    session         If the environment variable DBGP_COOKIE exists,
-                    then the init packet MUST contain a session
-                    attribute with the value of the variable.  This
-                    allows an IDE to execute a debugger engine, and
-                    maintain some state information between the
-                    execution and the protocol connection.  This value
-                    should not be expected to be set in 'remote'
-                    debugging situations where the IDE is not in
-                    control of the process.  
-    thread_id       the systems thread id
-    parent_appid    the appid of the application that spawned the
-                    process.  When an application is executed, it
-                    should set it's APPID into the environment.
-                    If an APPID already exists, it should first
-                    read that value and use it as the PARENT_APPID.
-    language_name   debugger engine specific, must not contain
-                    additional information, such as version, etc.
-    protocol        The highest version of this protocol supported
-    fileuri         URI of the script file being debugged
-    =============== ========================================================
+    ================ ========================================================
+    Attribute        Description
+    ================ ========================================================
+    appid            defined by the debugger engine
+    idekey           defined by the user.  The DBGP_IDEKEY environment
+                     variable SHOULD be used if it is available,
+                     otherwise setting this value is debugger engine
+                     implementation specific.  This value may be empty.
+    session          If the environment variable DBGP_COOKIE exists,
+                     then the init packet MUST contain a session
+                     attribute with the value of the variable.  This
+                     allows an IDE to execute a debugger engine, and
+                     maintain some state information between the
+                     execution and the protocol connection.  This value
+                     should not be expected to be set in 'remote'
+                     debugging situations where the IDE is not in
+                     control of the process.  
+    thread           the systems thread id
+    parent           the appid of the application that spawned the
+                     process.  When an application is executed, it
+                     should set it's APPID into the environment.
+                     If an APPID already exists, it should first
+                     read that value and use it as the PARENT_APPID.
+    language         debugger engine specific, must not contain
+                     additional information, such as version, etc.
+    protocol_version The highest version of this protocol supported
+    fileuri          URI of the script file being debugged
+    ================ ========================================================
 
 The IDE responds by dropping socket connection, or starting with
 debugger commands.
