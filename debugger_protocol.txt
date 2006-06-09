@@ -994,7 +994,7 @@ where the arguments are:
 An example breakpoint_set command for a conditional breakpoint could look
 like this::
 
-    breakpoint_set -i 1 -f test.pl -l 20 -- base64($x > 3)
+    breakpoint_set -i 1 -f test.pl -n 20 -- base64($x > 3)
 
 A unique id for this breakpoint for this session is returned by the debugger
 engine. This *session breakpoint id* is used by the IDE to identify the
