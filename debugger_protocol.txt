@@ -966,7 +966,7 @@ IDE to debugger engine::
 where the arguments are:
 
     ==================  =====================================================
-    -t TYPE             breakpoint *type*, see below for valid values
+    -t TYPE             breakpoint *type*, see above for valid values
                         [required]
     -s STATE            breakpoint *state* [optional, defaults to "enabled"]
     -f FILENAME         the *filename* to which the breakpoint belongs
@@ -994,7 +994,7 @@ where the arguments are:
 An example breakpoint_set command for a conditional breakpoint could look
 like this::
 
-    breakpoint_set -i 1 -f test.pl -n 20 -- base64($x > 3)
+    breakpoint_set -i 1 -t line -f test.pl -n 20 -- base64($x > 3)
 
 A unique id for this breakpoint for this session is returned by the debugger
 engine. This *session breakpoint id* is used by the IDE to identify the
@@ -2071,6 +2071,11 @@ where,
 
 A. ChangeLog
 ============
+2007-03-31
+
+- 7.6.1 Fixed breakpoint_set example and note that the breakpoint types
+  are listed above and not below.
+
 2006-01-24
 
 - 7.2.1 Added a description of the breakpoint_types feature.
