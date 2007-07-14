@@ -1,3 +1,7 @@
+Sat Jul 14 16:34:53 CEST 2007 Derick Rethans <derick@derickrethans.nl>
+debugger_protocol.txt:
+- Fixed ReST.
+
 Sat Jul 14 16:34:08 CEST 2007 Derick Rethans <derick@derickrethans.nl>
 debugger_protocol.txt:
 - Update text after Dave's comments.
