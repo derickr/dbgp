@@ -1541,7 +1541,7 @@ data length information.  As per the context_get command, the depth
 of nested elements returned is either defaulted by the debugger
 engine, or negotiated using feature_set with max_children.
 
-    ==      ========================================================
+    ==      ===============================================================
     -d      stack depth (optional, debugger engine should assume
             zero if not provided)
     -c      context id (optional, retrieved by context-names,
@@ -1558,7 +1558,7 @@ engine, or negotiated using feature_set with max_children.
             debugger engine.
     -a      property address as retrieved in a property element,
             optional, used for property_set/value
-    ==      ========================================================
+    ==      ===============================================================
 
 IDE ::
 
