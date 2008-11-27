@@ -1,3 +1,7 @@
+Thu Nov 27 19:48:56 CET 2008 Derick Rethans <derick@derickrethans.nl>
+debugger_protocol.txt:
+- Clarified the text. (Suggestion by Eric Promislow <ericp@activestate.com>).
+
 Sat Jul 14 16:34:53 CEST 2007 Derick Rethans <derick@derickrethans.nl>
 debugger_protocol.txt:
 - Fixed ReST.
