@@ -348,7 +348,7 @@ protocol are defined further in section 6.2 below.
 
 The IDE sends simple ASCII commands to the debugger engine.  The
 debugger engine responds with XML data.  The XML data is prepended
-with a stringified integer representing the length of the XML data
+with a stringified integer representing the number of bytes in the XML data
 packet.  The length and XML data are separated by a NULL byte.  The
 XML data is ended with a NULL byte.  Neither the IDE or debugger engine
 packets may contain NULL bytes within the packet since it is used as
