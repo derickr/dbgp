@@ -2,7 +2,7 @@ DBGP - A common debugger protocol for languages and debugger UI communication
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 :Version: 1.0
-:Status: draft 16
+:Status: draft 17
 :Authors: - Shane Caraveo, ActiveState <shanec@ActiveState.com>
           - Derick Rethans <derick@derickrethans.nl>
 
@@ -1735,6 +1735,14 @@ as Python, which have separate statements for these, will need to handle
 both appropriately.  For implementations that need to be more explicit, use
 the expr or exec commands below.
 
+The eval and expr commands can include the following optional parameter:
+
+    ==      ===============================================================
+    -p      data page: optional for arrays, hashes, objects, etc.; debugger
+            engine should assume zero if not provided — similar to the -p
+            parameter for property_get.
+    ==      ===============================================================
+
 IDE ::
 
     eval -i transaction_id -- {DATA}
@@ -2094,6 +2102,12 @@ where,
 
 A. ChangeLog
 ============
+2009-12-30 - draft 17
+
+- 8.3 Added the -p parameter to eval and expr, to control which pages are
+  shown in case the returned property is an array, hash or object with more
+  than "pagesize" children.
+
 2007-07-14 - draft 16
 
 - 6.3 Fixed binary encoding comments regarding data.
