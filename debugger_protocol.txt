@@ -955,6 +955,8 @@ applicable for some breakpoint types.
                         `%`
                             break if hit_count is a multiple of hit_value
     exception           Exception name for *exception* type breakpoints.
+    expression          The expression used for *conditional* and *watch* type
+                        breakpoints
     ==================  ======================================================
 
 Breakpoints should be maintained in the debugger engine at an application
@@ -1064,6 +1066,7 @@ debugger engine to IDE::
                     lineno="LINENO"
                     function="FUNCTION"
                     exception="EXCEPTION"
+                    expression="EXPRESSION"
                     hit_value="HIT_VALUE"
                     hit_condition="HIT_CONDITION"
                     hit_count="HIT_COUNT">
@@ -2102,7 +2105,12 @@ where,
 
 A. ChangeLog
 ============
-2009-12-30 - draft 17
+2010-01-20 - draft 17
+
+- 7.6 / 7.6.2 Added the missing "expression" argument to information that can
+  be stored for breakpoints, and returned through breakpoint_get.
+
+2009-12-30
 
 - 8.3 Added the -p parameter to eval and expr, to control which pages are
   shown in case the returned property is an array, hash or object with more
