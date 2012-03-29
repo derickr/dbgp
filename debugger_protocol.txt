@@ -363,6 +363,15 @@ or Pythons Cmd module: ::
 
     command -a value -b value ...
 
+If a value for an option includes a space, the value needs to be
+encoded. You can encode values by encasing them in double quotes::
+
+    property_get -i 5 -n "$x['a b']" -d 0 -c 0 -p 0
+
+It is also possible to use escape characters in quoted strings::
+
+    property_get -i 6 -n "$x[\"a b\"]" -d 0 -c 0 -p 0
+
 All numbers in the protocol are base 10 string representations, unless
 the number is noted to be debugger engine specific (eg. the address
 attribute on property elements).
@@ -2105,6 +2114,11 @@ where,
 
 A. ChangeLog
 ============
+2012-03-29
+
+- 6 Clarified what "Pythons Cmd module" means for quoting values that contain
+  spaces.
+
 2010-01-20 - draft 17
 
 - 7.6 / 7.6.2 Added the missing "expression" argument to information that can
