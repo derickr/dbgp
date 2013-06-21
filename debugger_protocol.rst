@@ -1158,6 +1158,10 @@ debugger engine to IDE::
 7.7 stack_depth
 ---------------
 
+Returns the maximum stack depth that can be returned by the
+debugger. The optional -d argument of the *stack_get* command
+must be less than this number.
+
 IDE ::
 
     stack-depth -i transaction_id
