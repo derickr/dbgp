@@ -2,7 +2,7 @@ DBGP - A common debugger protocol for languages and debugger UI communication
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 :Version: 1.0
-:Status: draft 17
+:Status: draft 18
 :Authors: - Shane Caraveo, ActiveState <shanec@ActiveState.com>
           - Derick Rethans <derick@derickrethans.nl>
 
@@ -710,7 +710,6 @@ The following features strings MUST be available:
                                       See `7.6 breakpoints`_ for a list of the
                                       6 defined breakpoint types.
     multiple_sessions         get|set {0|1}
-    encoding                  get|set {ISO8859-15, UTF-8, etc.}
     max_children              get|set max number of array or object
                                       children to initially retrieve
     max_data                  get|set max amount of variable data to
@@ -718,6 +717,12 @@ The following features strings MUST be available:
     max_depth                 get|set maximum depth that the debugger
                                       engine may return when sending arrays,
                                       hashs or object structures to the IDE.
+    extended_properties       get|set {0|1} Extended properties are required if
+                                      there are property names (name, fullname
+                                      or classname) that can not be represented
+                                      as valid XML attribute values (such as
+                                      ``&#0;``). See also
+                                      `7.11 Properties, variables and values`_.
     ========================= ======= ==========================================
 
 The following features strings MAY be available, if they are not, the IDE should
@@ -1168,6 +1173,10 @@ debugger engine to IDE::
 7.7 stack_depth
 ---------------
 
+Returns the maximum stack depth that can be returned by the
+debugger. The optional -d argument of the *stack_get* command
+must be less than this number.
+
 IDE ::
 
     stack-depth -i transaction_id
@@ -1348,7 +1357,9 @@ Attributes in the property element can include:
                     class:$v; // short name 'v'
     fullname        variable name.  This is the long form of the name
                     which can be eval'd by the language to retrieve
-                    the value of the variable.
+                    the value of the variable. IDEs SHOULD NOT use the eval
+                    command to retrieve nested properties with this, but
+                    instead use property_get.
                     $v = 0; // long name 'v'
                     class::$v; // short name 'v', long 'class::$v'
                     $this->v; // short name 'v', long '$this->v'
@@ -1382,6 +1393,31 @@ Attributes in the property element can include:
                     with this attribute set
     =============== ========================================================
 
+If the name attribute is *not set*, then the property element structure is
+required to provide name, fullname (optional), classname (optional) and value
+as sub elements of the <property> element::
+
+    <property
+        type="data_type"
+        constant="0|1"
+        children="0|1"
+        size="{NUM}"
+        page="{NUM}"
+        pagesize="{NUM}"
+        address="{NUM}"
+        key="language_dependent_key"
+        encoding="base64|none"
+        numchildren="{NUM}">
+        <name encoding="base64">...</name>
+        <fullname encoding="base64">...</name>
+        <classname encoding="base64">...</name>
+        <value encoding="base64">...</name>
+    </property>
+    
+The debugger engine MAY only pick this format if the extended_properties feature
+has been negotiated and SHOUD only pick this format if one of the attribute values
+for ``name``, ``fullname``, ``classname`` or ``value`` contain information that
+can not be represented as valid XML within attributes (such as ``&#0;``).
 
 7.12 Data Types
 ---------------
@@ -2114,6 +2150,16 @@ where,
 
 A. ChangeLog
 ============
+
+2013-10-01
+
+- 7.13 Clarified use of the -m option.
+
+2013-06-22
+
+- 7.2.2 / 7.11 Added the extended property format and extended_property feature
+  negotiation.
+
 2012-03-29
 
 - 6 Clarified what "Pythons Cmd module" means for quoting values that contain
