@@ -1577,7 +1577,7 @@ support for this::
 Gets/sets a property value.  When retrieving a property with the
 get method, the maximum data that should be returned is a default
 defined by the debugger engine unless it has been negotiated using
-feature_set with max_data.  If the size of the properties data is
+feature_set with max_data.  If the size of the property's data is
 larger than that, the debugger engine only returns the configured
 amount, and the IDE should call property_value to get the entire
 data.  This is to prevent large data from slowing down debugger
@@ -1595,7 +1595,9 @@ engine, or negotiated using feature_set with max_children.
     -c      context id (optional, retrieved by context-names,
             debugger engine should assume zero if not provided)
     -n      property long name (required)
-    -m      max data size to retrieve (optional)
+    -m      max data size to retrieve (optional, defaults to the length as
+            negotiated through feature_set with max_data). **0** means
+            unlimited data.
     -t      data type (property_set only, optional)
     -p      data page (property_get, property_value: optional for arrays,
             hashes, objects, etc.; property_set: not required; debugger
