@@ -1302,7 +1302,7 @@ with an id zero is used (generally the 'locals' context).
 
 IDE ::
 
-    context_get -d {NUM} -i transaction_id
+    context_get -d {NUM} -c {NUM} -i transaction_id
 
 debugger engine ::
 
