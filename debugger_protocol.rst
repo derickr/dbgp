@@ -713,7 +713,7 @@ The following features strings MUST be available:
     max_children              get|set max number of array or object
                                       children to initially retrieve
     max_data                  get|set max amount of variable data to
-                              get|set initially retrieve.
+                                      initially retrieve.
     max_depth                 get|set maximum depth that the debugger
                                       engine may return when sending arrays,
                                       hashs or object structures to the IDE.
