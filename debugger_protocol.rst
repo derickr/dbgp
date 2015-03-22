@@ -1409,9 +1409,9 @@ as sub elements of the <property> element::
         encoding="base64|none"
         numchildren="{NUM}">
         <name encoding="base64">...</name>
-        <fullname encoding="base64">...</name>
-        <classname encoding="base64">...</name>
-        <value encoding="base64">...</name>
+        <fullname encoding="base64">...</fullname>
+        <classname encoding="base64">...</classname>
+        <value encoding="base64">...</value>
     </property>
     
 The debugger engine MAY only pick this format if the extended_properties feature
