@@ -1179,7 +1179,7 @@ must be less than this number.
 
 IDE ::
 
-    stack-depth -i transaction_id
+    stack_depth -i transaction_id
 
 debugger engine ::
 
@@ -2152,6 +2152,10 @@ where,
 
 A. ChangeLog
 ============
+
+2015-11-11
+
+- 7.7 Fixed type in IDE command from "stack-depth" to "stack_depth"
 
 2013-10-01
 
