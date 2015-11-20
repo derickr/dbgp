@@ -758,7 +758,7 @@ arguments for feature_get include:
 
 IDE ::
 
-    feature-get -i transaction_id -n feature_name
+    feature_get -i transaction_id -n feature_name
 
 debugger engine ::
 
@@ -808,7 +808,7 @@ encodings.
 
 IDE ::
 
-    feature_set -i transaction_id -n feature-name -v value
+    feature_set -i transaction_id -n feature_name -v value
 
 debugger engine ::
 
@@ -1297,7 +1297,7 @@ with an id zero is used (generally the 'locals' context).
 
     ==      ========================================================
     -d      stack depth (optional)
-    -c      context id  (optional, retrieved by context-names)
+    -c      context id  (optional, retrieved by context_names)
     ==      ========================================================
 
 IDE ::
