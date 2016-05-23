@@ -84,7 +84,7 @@ execution until the IDE issues one of the continuation commands.
 The first thing that should happen in a debug session is that the IDE
 negotiates features using the feature_get and feature_set commands, and sets
 any additional data, such as breakpoints.  Debugger engine implementations
-should store and data it receives if it is unable to process them prior to
+should store any data it receives if it is unable to process them prior to
 compiling and/or executing code.  Commands such as stack_get should not be
 expected to work during this phase, otherwise known as the 'starting' state (see
 section 7.1 for status levels).
@@ -312,7 +312,7 @@ base default values, the IDE should negotiate these terms if it
 needs to.  The debugger engine must support these requests from the
 IDE.  This includes limits to the data size of a property or
 variable, and the depth limit to arrays, hashes, objects, or other
-tree like structures.  The data size excludes any the protocol
+tree like structures.  The data size excludes the protocol
 overhead.
 
 Asynchronous Communications
