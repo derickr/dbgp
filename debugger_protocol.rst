@@ -709,6 +709,11 @@ The following features strings MUST be available:
                                       the breakpoint types that are supported.
                                       See `7.6 breakpoints`_ for a list of the
                                       6 defined breakpoint types.
+    resolved_breakpoints      get     returns whether the debugging engine
+                                      supports the notion of resolving
+                                      breakpoints. See the *resolved*
+                                      attribute under `7.6 breakpoints`_ for
+                                      further information.
     multiple_sessions         get|set {0|1}
     max_children              get|set max number of array or object
                                       children to initially retrieve
@@ -946,6 +951,23 @@ applicable for some breakpoint types.
                         Cursor".  Once the debugger engine uses a temporary
                         breakpoint, it should automatically remove the breakpoint
                         from it's list of valid breakpoints.
+    resolved            Flag to denote whether a breakpoint has been resolved.
+                        The value of the attribute is either *resolved* or
+                        *unresolved*.
+                        A resolved breakpoint is one where the debugger engine
+                        has established that it can actually break on: the
+                        file/line number (*line* type breakpoints), the
+                        function name (*call* and *return* type breakpoints),
+                        or the exception name (*exception* type breakpoints).
+                        For dynamic languages, that load files as the
+                        execution happens, this is useful for finding out
+                        invalid breakpoints. This is a **read only** flag. It
+                        MUST be included when the debugger engine does support
+                        resolving of breakpoints, and it MUST NOT be included
+                        if the debugger engine has no notion of resolved
+                        breakpoints. An IDE can use the *resolved_breakpoints*
+                        feature to find out whether a debugging engine
+                        supports resolved breakpoints.
     hit_count           Number of effective hits for the breakpoint in the
                         current session.  This value is maintained by the
                         debugger engine (a.k.a.  DBGP client).  A
