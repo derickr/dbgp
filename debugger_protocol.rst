@@ -1062,6 +1062,7 @@ debugger engine to IDE::
      <response command="breakpoint_set"
                transaction_id="TRANSACTION_ID"
                state="STATE"
+               resolved="RESOLVED"
                id="BREAKPOINT_ID"/>
 
 where,
@@ -1071,6 +1072,10 @@ where,
                         breakpoint in the debugger engine.
     STATE               the initial state of the breakpoint as set by the
                         debugger engine
+    RESOLVED            *resolved* if the debugger engine knows the
+                        breakpoint is valid, or *unresolved* otherwise. This
+                        attribute is only present if the debugger engine
+                        implements the "resolving" feature
     ==================  =====================================================
 
 
@@ -1098,6 +1103,7 @@ debugger engine to IDE::
         <breakpoint id="BREAKPOINT_ID"
                     type="TYPE"
                     state="STATE"
+                    resolved="RESOLVED"
                     filename="FILENAME"
                     lineno="LINENO"
                     function="FUNCTION"
@@ -1177,6 +1183,7 @@ debugger engine to IDE::
         <breakpoint id="BREAKPOINT_ID"
                     type="TYPE"
                     state="STATE"
+                    resolved="RESOLVED"
                     filename="FILENAME"
                     lineno="LINENO"
                     function="FUNCTION"
