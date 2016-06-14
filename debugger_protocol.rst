@@ -1157,7 +1157,7 @@ debugger engine to IDE::
 ^^^^^^^^^^^^^^^^^^^^^^^
 
 This command is used by the IDE to remove the given breakpoint. The
-debugger engine can optionally embed the remove breakpoint as child
+debugger engine can optionally embed the removed breakpoint as child
 element.
 
 IDE to debugger engine::
