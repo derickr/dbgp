@@ -1121,6 +1121,10 @@ E.g., the <expression/> child element need only be included if there is an
 expression defined, the *function* attribute need only be included if this is
 a *function* breakpoint.
 
+The *lineno* attribute might be different from the one set through
+`7.6.1 breakpoint_set`_ due to breakpoint resolving, but only if the
+*resolved* attribute is set to *resolved*.
+
 
 7.6.3 breakpoint_update
 ^^^^^^^^^^^^^^^^^^^^^^^
@@ -1197,6 +1201,9 @@ debugger engine to IDE::
         ...
     </response>
 
+The *lineno* attribute for each entry might be different from the one set
+through `7.6.1 breakpoint_set`_ due to breakpoint resolving, but only if the
+*resolved* attribute is set to *resolved*.
 
 
 7.7 stack_depth
