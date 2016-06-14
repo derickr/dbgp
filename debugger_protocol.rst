@@ -2009,13 +2009,13 @@ debugger engine to IDE::
 8.5 Notifications
 -----------------
 
-At times it may be desirable to recieve a notification from the debugger
+At times it may be desirable to receive a notification from the debugger
 engine for various events.  This notification tag allows for some simple
 data to be passed from the debugger engine to the IDE.  Customized
 implementations may add child elements for additional data.
 
-As an example, this is usefull for handling STDIN.  The debugger engine
-interupts all STDIN reads, and when a read is done by the application, it sends
+As an example, this is useful for handling STDIN.  The debugger engine
+interrupts all STDIN reads, and when a read is done by the application, it sends
 a notification to the IDE.  The IDE is then able to do something to let the user
 know the application is waiting for input, such as placing a cursor in the
 debugger output window.
@@ -2051,7 +2051,7 @@ debugger engine notifications to IDE::
 
 The following list of notifications are standardized for the protocol. Other
 notifications may be added by other implementations.  It is suggested that
-notification names not found in this document are preceeded with 'XXX' or some
+notification names not found in this document are preceded with 'XXX' or some
 similar tag as a means of preventing name conflicts when new notifications get
 added to the protocol in the future.
 
