@@ -2059,12 +2059,22 @@ notification names not found in this document are preceded with 'XXX' or some
 similar tag as a means of preventing name conflicts when new notifications get
 added to the protocol in the future.
 
-    ======= =====================================================
-    Name    Description
-    ======= =====================================================
-    stdin   notification occurs when the debugger engine is about
-            to read the stdin pipe.
-    ======= =====================================================
+    =================== =====================================================
+    Name                Description
+    =================== =====================================================
+    stdin               notification occurs when the debugger engine is about
+                        to read the stdin pipe.
+    resolved_breakpoint Notification occurs when the debugger engine has
+                        resolved a breakpoint. The returned notification
+                        includes the same elements as a return from
+                        `7.6.2 breakpoint_get`_. The *breakpoint* element
+                        becomes a child element of the *notify* element
+                        instead of *response*. The *resolved* attribute should
+                        always be set to *resolved*.
+                        A debugger engine MAY send multiple notifications for
+                        the same breakpoint ID, but only if their attributes
+                        have changed (again).
+    =================== =====================================================
 
 
 8.6 interact - Interactive Shell
