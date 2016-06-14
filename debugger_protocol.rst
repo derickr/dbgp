@@ -514,7 +514,7 @@ The following are predefined error codes for the response to commands:
     1 - parse error in command
     2 - duplicate arguments in command
     3 - invalid options (ie, missing a required option, invalid value for a 
-        passed option)
+        passed option, not supported feature)
     4 - Unimplemented command
     5 - Command not available (Is used for async commands. For instance
         if the engine is in state "run" then only "break" and "status"
@@ -737,7 +737,7 @@ assume that the feature is not available:
                                       information on properties (eg. private
                                       members of classes, etc.)  Zero means that
                                       hidden members are not shown to the IDE.
-    notify_ok                 get|set [0|1]  See section 8.5
+    notify_ok                 get|set [0|1]  See section `8.5 Notifications`_.
     ========================= ======= ==========================================
 
 Additionally, all protocol commands supported must have a string,
@@ -817,6 +817,8 @@ debugger engine ::
               success="0|1"
               transaction_id="transaction_id"/>
 
+If the feature is not supported, the debugger engine should return an error
+with the code set to 3 (invalid arguments).
 
 7.5 continuation commands
 -------------------------
@@ -2024,7 +2026,9 @@ A new feature name is introduced: notify_ok.  The IDE will call feature_set
 with the notify_ok name and a TRUE value (1).  This lets the debugger engine
 know that it can send notifications to the IDE.  If the IDE has not set this
 value, or sets it to FALSE (0), then the debugger engine MUST NOT send
-notifications to the IDE.
+notifications to the IDE. If the debugger engine does not understand the
+notify_ok feature, the call to feature_set should return an error with the
+error code set to 3 (invalid arguments).
 
 The debugger engine MUST NOT expect a notification to cause an IDE to behave
 in any particular way, or even to be handled by the IDE at all.
