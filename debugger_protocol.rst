@@ -1103,9 +1103,11 @@ This command is used by the IDE to update one or more attributes of a
 breakpoint that was already set on the debugger engine via *breakpoint_set*.
 
 If a debugger engine supports the resolved state for breakpoints, the resolved
-flag for an updated breakpoint SHOULD be set to "0". A debugger engine MAY
-elect to run rediscovery in order to find out whether the updated breakpoint
-can be resolved.
+flag for an updated breakpoint SHOULD initially be set to "unresolved".
+If a debugger engine chooses, it can also try to re-resolve the breakpoint
+with the updated breakpoint configuration. If the debugger engine can resolve
+the breakpoint with the new information, it SHOULD set the resolved flag to
+"resolved".
 
 IDE to debugger engine::
 
