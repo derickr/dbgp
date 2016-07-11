@@ -2064,7 +2064,7 @@ added to the protocol in the future.
     =================== =====================================================
     stdin               notification occurs when the debugger engine is about
                         to read the stdin pipe.
-    resolved_breakpoint Notification occurs when the debugger engine has
+    breakpoing_resolved Notification occurs when the debugger engine has
                         resolved a breakpoint. The returned notification
                         includes the same elements as a return from
                         `7.6.2 breakpoint_get`_. The *breakpoint* element
