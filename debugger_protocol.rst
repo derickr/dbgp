@@ -1785,12 +1785,14 @@ as Python, which have separate statements for these, will need to handle
 both appropriately.  For implementations that need to be more explicit, use
 the expr or exec commands below.
 
-The eval and expr commands can include the following optional parameter:
+The eval and expr commands can include the following optional parameters:
 
     ==      ===============================================================
     -p      data page: optional for arrays, hashes, objects, etc.; debugger
             engine should assume zero if not provided — similar to the -p
             parameter for property_get.
+    -d      stack depth: stack depth at which the given code should be
+            evaluated; debugger engine should assume zero if not provided.
     ==      ===============================================================
 
 IDE ::
