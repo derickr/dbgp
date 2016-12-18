@@ -708,7 +708,7 @@ The following features strings MUST be available:
     breakpoint_types          get     returns a space separated list with all
                                       the breakpoint types that are supported.
                                       See `7.6 breakpoints`_ for a list of the
-                                      6 defined breakpoint types.
+                                      defined breakpoint types.
     multiple_sessions         get|set {0|1}
     max_children              get|set max number of array or object
                                       children to initially retrieve
@@ -903,7 +903,7 @@ The following DBGP commands relate to breakpoints:
 .. _breakpoint_list: `7.6.5 breakpoint_list`_
 
 
-There are six different breakpoints *types*:
+These are the different breakpoints *types*:
 
     ==============  ===========     =========================================
     Type            Req'd Attrs     Description
@@ -920,6 +920,8 @@ There are six different breakpoints *types*:
                                     just in given filename
     watch           expression      break on write of the variable or address
                                     defined by the expression argument
+    scope_change    *none*          break when the active scope (stack frame)
+                                    changes
     ==============  ===========     =========================================
 
 
@@ -970,7 +972,7 @@ applicable for some breakpoint types.
                             break if hit_count is a multiple of hit_value
     exception           Exception name for *exception* type breakpoints.
     expression          The expression used for *conditional* and *watch* type
-                        breakpoints
+                        breakpoints.
     ==================  ======================================================
 
 Breakpoints should be maintained in the debugger engine at an application
@@ -1099,6 +1101,13 @@ a *function* breakpoint.
 
 This command is used by the IDE to update one or more attributes of a
 breakpoint that was already set on the debugger engine via *breakpoint_set*.
+
+If a debugger engine supports the resolved state for breakpoints, the resolved
+flag for an updated breakpoint SHOULD initially be set to "unresolved".
+If a debugger engine chooses, it can also try to re-resolve the breakpoint
+with the updated breakpoint configuration. If the debugger engine can resolve
+the breakpoint with the new information, it SHOULD set the resolved flag to
+"resolved".
 
 IDE to debugger engine::
 
