@@ -1415,7 +1415,7 @@ as sub elements of the <property> element::
     </property>
     
 The debugger engine MAY only pick this format if the extended_properties feature
-has been negotiated and SHOUD only pick this format if one of the attribute values
+has been negotiated and SHOULD only pick this format if one of the attribute values
 for ``name``, ``fullname``, ``classname`` or ``value`` contain information that
 can not be represented as valid XML within attributes (such as ``&#0;``).
 
