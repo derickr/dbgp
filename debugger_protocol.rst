@@ -461,24 +461,38 @@ Standard arguments for all commands ::
 
 The debugger engine always replies or sends XML data.  The standard
 namespace for the root elements returned from the debugger
-engine MUST be "urn:debugger_protocol_v1".  Namespaces have been left
-out in the examples in this document.  The messages sent by the
+engine MUST be ``urn:debugger_protocol_v1``.  Namespaces have been left
+out in the other examples in this document.  The messages sent by the
 debugger engine must always be NULL terminated.  The XML document tag
 must always be present to provide XML version and encoding information.
 
-Two base tags are used for the root tags: ::
+Three base tags are used for the root tags: ::
 
     data_length
     [NULL]
     <?xml version="1.0" encoding="UTF-8"?>
-    <response command="command_name"
+    <response xmlns="urn:debugger_protocol_v1"
+              command="command_name"
               transaction_id="transaction_id"/>
     [NULL]
 
+
     data_length
     [NULL]
     <?xml version="1.0" encoding="UTF-8"?>
-    <stream type="stdout|stderr">...Base64 Data...</stream>
+    <stream xmlns="urn:debugger_protocol_v1"
+            type="stdout|stderr">...Base64 Data...</stream>
+    [NULL]
+
+
+    data_length
+    [NULL]
+    <?xml version="1.0" encoding="UTF-8"?>
+    <notify xmlns="urn:debugger_protocol_v1"
+            xmlns:customNs="http://example.com/dbgp/example"
+            name="notification_name">
+        <customNs:customElement/>
+    </notify>
     [NULL]
 
 For simplification, data length and NULL bytes will be left out of the
@@ -498,8 +512,8 @@ to avoid conflicts with other implementations. ::
 
     <response command="command_name"
               transaction_id="transaction_id">
-        <error code="error_code" apperr="app_specific_error_code">
-            <message>UI Usable Message</message>
+        <error code="error_code" customNs:apperr="app_specific_error_code">
+            <customNs:message>UI Usable Message</customNs:message>
         </error>
     </response>
 
@@ -2052,7 +2066,8 @@ debugger engine to IDE::
 At times it may be desirable to receive a notification from the debugger
 engine for various events.  This notification tag allows for some simple
 data to be passed from the debugger engine to the IDE.  Customized
-implementations may add child elements for additional data.
+implementations may add child elements with their own XML namespace
+for additional data.
 
 As an example, this is useful for handling STDIN.  The debugger engine
 interrupts all STDIN reads, and when a read is done by the application, it sends
@@ -2082,9 +2097,11 @@ IDE initialization of notifications::
 
 debugger engine notifications to IDE::
 
-    <notify name="notification_name">
-    TEXT_NODE or CDATA
-    <custom.../>
+    <notify xmlns="urn:debugger_protocol_v1"
+            xmlns:customNs="https://example.com/xmlns/debug"
+            name="notification_name">
+        <customNs:.../>
+        TEXT_NODE or CDATA
     </notify>
 
 
