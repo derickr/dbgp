@@ -2129,7 +2129,31 @@ added to the protocol in the future.
                         A debugger engine MAY send multiple notifications for
                         the same breakpoint ID, but only if their attributes
                         have changed (again).
+    debug               notification occurs when the language engine issues
+                        debugging information.
     =================== =====================================================
+
+8.5.2 Debug Notification
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+When a language engine creates a debugging notification, the debugger engine
+MAY convert this to a DBGp notification. As an example, this can be used to
+convert PHP's Notices and Warnings to DBGp notifications.
+
+With the ``notify_ok`` feature set, a notification like the following would be
+returned. This extensive XML snippet also displays how XML namespaces SHOULD
+BE used for providing additional information::
+
+    <notify name="debug"
+            xmlns="urn:debugger_protocol_v1"
+            xmlns:xdebug="http://xdebug.org/dbgp/xdebug">
+        <xdebug:message filename="file:///tmp/xdebug-dbgp-test.php"
+                        lineno="5"
+                        type="Notice">
+            <![CDATA[Undefined variable: bar]]>
+        </xdebug:message>
+        <![CDATA[Notice: Undefined variable: bar in file:///tmp/xdebug-dbgp-test.php on line 5]]>
+    </notify>
 
 
 8.6 interact - Interactive Shell
