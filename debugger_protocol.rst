@@ -729,6 +729,7 @@ The following features strings MUST be available:
                                       attribute under `7.6 breakpoints`_ for
                                       further information.
     multiple_sessions         get|set {0|1}
+    encoding                  get|set {ISO8859-15, UTF-8, etc.}
     max_children              get|set max number of array or object
                                       children to initially retrieve
     max_data                  get|set max amount of variable data to
