@@ -2069,15 +2069,15 @@ data to be passed from the debugger engine to the IDE.  Customized
 implementations may add child elements with their own XML namespace
 for additional data.
 
-As an example, this is useful for handling STDIN.  The debugger engine
+As an example, this is useful for handling STDIN. The debugger engine
 interrupts all STDIN reads, and when a read is done by the application, it sends
 a notification to the IDE.  The IDE is then able to do something to let the user
 know the application is waiting for input, such as placing a cursor in the
 debugger output window.
 
-A new feature name is introduced: notify_ok.  The IDE will call feature_set
-with the notify_ok name and a TRUE value (1).  This lets the debugger engine
-know that it can send notifications to the IDE.  If the IDE has not set this
+A new feature name is introduced: ``notify_ok``. The IDE will call feature_set
+with the ``notify_ok`` name and a TRUE value (1). This lets the debugger engine
+know that it can send notifications to the IDE. If the IDE has not set this
 value, or sets it to FALSE (0), then the debugger engine MUST NOT send
 notifications to the IDE. If the debugger engine does not understand the
 notify_ok feature, the call to feature_set should return an error with the
@@ -2087,8 +2087,8 @@ The debugger engine MUST NOT expect a notification to cause an IDE to behave
 in any particular way, or even to be handled by the IDE at all.
 
 A proxy may also use notifications, during a debug session, to let the IDE know
-about events that happen in the proxy.  To do this, the proxy will have to
-listen for feature_set commands and keep track of the values set, as well as
+about events that happen in the proxy. To do this, the proxy will have to
+listen for ``feature_set`` commands and keep track of the values set, as well as
 passing them through to the debugger engine.
 
 IDE initialization of notifications::
