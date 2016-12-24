@@ -2,7 +2,7 @@ DBGP - A common debugger protocol for languages and debugger UI communication
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 :Version: 1.0
-:Status: draft 18
+:Status: draft 19
 :Authors: - Shane Caraveo, ActiveState <shanec@ActiveState.com>
           - Derick Rethans <derick@derickrethans.nl>
 
@@ -2247,11 +2247,24 @@ where,
 A. ChangeLog
 ============
 
+2016-12-24 - draft 19
+
+- 8.5.2 Added section on Debug Notifications
+
+2016-08-31
+
+- 8.3 Added -d stack depth parameter to eval command (Max Sherman)
+
 2016-06-07
 
 - 7.2.1, 7.6 Add 'resolved' attribute to breakpoint_set, breakpoint_get and
   breakpoint_list
 - 7.5 Added 'breakpoint_resolved' notification.
+
+2015-11-20
+
+- Fixed typos in IDE commands "feature-get" to "feature_get", "feature-set" to
+  "feature_set", and "context id" to "context_id".
 
 2015-11-11
 
