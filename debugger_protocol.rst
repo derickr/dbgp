@@ -709,6 +709,11 @@ The following features strings MUST be available:
                                       the breakpoint types that are supported.
                                       See `7.6 breakpoints`_ for a list of the
                                       6 defined breakpoint types.
+    resolved_breakpoints      get     returns whether the debugging engine
+                                      supports the notion of resolving
+                                      breakpoints. See the *resolved*
+                                      attribute under `7.6 breakpoints`_ for
+                                      further information.
     multiple_sessions         get|set {0|1}
     max_children              get|set max number of array or object
                                       children to initially retrieve
@@ -946,6 +951,23 @@ applicable for some breakpoint types.
                         Cursor".  Once the debugger engine uses a temporary
                         breakpoint, it should automatically remove the breakpoint
                         from it's list of valid breakpoints.
+    resolved            Flag to denote whether a breakpoint has been resolved.
+                        The value of the attribute is either *resolved* or
+                        *unresolved*.
+                        A resolved breakpoint is one where the debugger engine
+                        has established that it can actually break on: the
+                        file/line number (*line* type breakpoints), the
+                        function name (*call* and *return* type breakpoints),
+                        or the exception name (*exception* type breakpoints).
+                        For dynamic languages, that load files as the
+                        execution happens, this is useful for finding out
+                        invalid breakpoints. This is a **read only** flag. It
+                        MUST be included when the debugger engine does support
+                        resolving of breakpoints, and it MUST NOT be included
+                        if the debugger engine has no notion of resolved
+                        breakpoints. An IDE can use the *resolved_breakpoints*
+                        feature to find out whether a debugging engine
+                        supports resolved breakpoints.
     hit_count           Number of effective hits for the breakpoint in the
                         current session.  This value is maintained by the
                         debugger engine (a.k.a.  DBGP client).  A
@@ -1040,6 +1062,7 @@ debugger engine to IDE::
      <response command="breakpoint_set"
                transaction_id="TRANSACTION_ID"
                state="STATE"
+               resolved="RESOLVED"
                id="BREAKPOINT_ID"/>
 
 where,
@@ -1049,6 +1072,10 @@ where,
                         breakpoint in the debugger engine.
     STATE               the initial state of the breakpoint as set by the
                         debugger engine
+    RESOLVED            *resolved* if the debugger engine knows the
+                        breakpoint is valid, or *unresolved* otherwise. This
+                        attribute is only present if the debugger engine
+                        implements the "resolving" feature
     ==================  =====================================================
 
 
@@ -1076,6 +1103,7 @@ debugger engine to IDE::
         <breakpoint id="BREAKPOINT_ID"
                     type="TYPE"
                     state="STATE"
+                    resolved="RESOLVED"
                     filename="FILENAME"
                     lineno="LINENO"
                     function="FUNCTION"
@@ -1092,6 +1120,10 @@ where each breakpoint attribute is only required if its value is relevant.
 E.g., the <expression/> child element need only be included if there is an
 expression defined, the *function* attribute need only be included if this is
 a *function* breakpoint.
+
+The *lineno* attribute might be different from the one set through
+`7.6.1 breakpoint_set`_ due to breakpoint resolving, but only if the
+*resolved* attribute is set to *resolved*.
 
 
 7.6.3 breakpoint_update
@@ -1125,7 +1157,7 @@ debugger engine to IDE::
 ^^^^^^^^^^^^^^^^^^^^^^^
 
 This command is used by the IDE to remove the given breakpoint. The
-debugger engine can optionally embed the remove breakpoint as child
+debugger engine can optionally embed the removed breakpoint as child
 element.
 
 IDE to debugger engine::
@@ -1155,6 +1187,7 @@ debugger engine to IDE::
         <breakpoint id="BREAKPOINT_ID"
                     type="TYPE"
                     state="STATE"
+                    resolved="RESOLVED"
                     filename="FILENAME"
                     lineno="LINENO"
                     function="FUNCTION"
@@ -1168,6 +1201,9 @@ debugger engine to IDE::
         ...
     </response>
 
+The *lineno* attribute for each entry might be different from the one set
+through `7.6.1 breakpoint_set`_ due to breakpoint resolving, but only if the
+*resolved* attribute is set to *resolved*.
 
 
 7.7 stack_depth
@@ -2154,6 +2190,11 @@ where,
 
 A. ChangeLog
 ============
+
+2016-06-07
+
+- 7.2.1, 7.6 Add 'resolved' attribute to breakpoint_set, breakpoint_get and
+  breakpoint_list
 
 2015-11-11
 
