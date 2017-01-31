@@ -283,7 +283,7 @@ IDE should tell the debugger engine whether it supports multiple
 debugger sessions, the debugger engine should assume that the IDE does
 not.  The IDE can use the feature_set command with the feature name of
 'multiple_sessions' to notify the debugger engine that it supports multiple
-session debugging.  The IDE may also query the the debugger engine specifically
+session debugging.  The IDE may also query the debugger engine specifically
 for multithreaded debugging support by using the feature_get command with
 a feature name of 'language_supports_threads'.
 
@@ -2130,11 +2130,11 @@ added to the protocol in the future.
                         A debugger engine MAY send multiple notifications for
                         the same breakpoint ID, but only if their attributes
                         have changed (again).
-    debug               notification occurs when the language engine issues
+    error               notification occurs when the language engine issues
                         debugging information.
     =================== =====================================================
 
-8.5.2 Debug Notification
+8.5.2 Error Notification
 ^^^^^^^^^^^^^^^^^^^^^^^^
 
 When a language engine creates a debugging notification, the debugger engine
@@ -2145,7 +2145,7 @@ With the ``notify_ok`` feature set, a notification like the following would be
 returned. This extensive XML snippet also displays how XML namespaces SHOULD
 BE used for providing additional information::
 
-    <notify name="debug"
+    <notify name="error"
             xmlns="urn:debugger_protocol_v1"
             xmlns:xdebug="http://xdebug.org/dbgp/xdebug">
         <xdebug:message filename="file:///tmp/xdebug-dbgp-test.php"
@@ -2249,7 +2249,7 @@ A. ChangeLog
 
 2016-12-24 - draft 19
 
-- 8.5.2 Added section on Debug Notifications
+- 8.5.2 Added section on Error Notifications
 
 2016-08-31
 
@@ -2452,7 +2452,7 @@ A. ChangeLog
 
 - draft 11
 - 7.12 new section inserted as 7.12.  This section specifies common
-  data types, and how to map more specific data types to the the common
+  data types, and how to map more specific data types to the common
   types.
 - 7.11 two new optional attributes, classname and facet, that provide
   additional hints to the IDE about the nature of the property.  New
