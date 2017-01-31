@@ -2,7 +2,7 @@ DBGP - A common debugger protocol for languages and debugger UI communication
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 :Version: 1.0
-:Status: draft 18
+:Status: draft 19
 :Authors: - Shane Caraveo, ActiveState <shanec@ActiveState.com>
           - Derick Rethans <derick@derickrethans.nl>
 
@@ -283,7 +283,7 @@ IDE should tell the debugger engine whether it supports multiple
 debugger sessions, the debugger engine should assume that the IDE does
 not.  The IDE can use the feature_set command with the feature name of
 'multiple_sessions' to notify the debugger engine that it supports multiple
-session debugging.  The IDE may also query the the debugger engine specifically
+session debugging.  The IDE may also query the debugger engine specifically
 for multithreaded debugging support by using the feature_get command with
 a feature name of 'language_supports_threads'.
 
@@ -461,24 +461,38 @@ Standard arguments for all commands ::
 
 The debugger engine always replies or sends XML data.  The standard
 namespace for the root elements returned from the debugger
-engine MUST be "urn:debugger_protocol_v1".  Namespaces have been left
-out in the examples in this document.  The messages sent by the
+engine MUST be ``urn:debugger_protocol_v1``.  Namespaces have been left
+out in the other examples in this document.  The messages sent by the
 debugger engine must always be NULL terminated.  The XML document tag
 must always be present to provide XML version and encoding information.
 
-Two base tags are used for the root tags: ::
+Three base tags are used for the root tags: ::
 
     data_length
     [NULL]
     <?xml version="1.0" encoding="UTF-8"?>
-    <response command="command_name"
+    <response xmlns="urn:debugger_protocol_v1"
+              command="command_name"
               transaction_id="transaction_id"/>
     [NULL]
 
+
     data_length
     [NULL]
     <?xml version="1.0" encoding="UTF-8"?>
-    <stream type="stdout|stderr">...Base64 Data...</stream>
+    <stream xmlns="urn:debugger_protocol_v1"
+            type="stdout|stderr">...Base64 Data...</stream>
+    [NULL]
+
+
+    data_length
+    [NULL]
+    <?xml version="1.0" encoding="UTF-8"?>
+    <notify xmlns="urn:debugger_protocol_v1"
+            xmlns:customNs="http://example.com/dbgp/example"
+            name="notification_name">
+        <customNs:customElement/>
+    </notify>
     [NULL]
 
 For simplification, data length and NULL bytes will be left out of the
@@ -498,8 +512,8 @@ to avoid conflicts with other implementations. ::
 
     <response command="command_name"
               transaction_id="transaction_id">
-        <error code="error_code" apperr="app_specific_error_code">
-            <message>UI Usable Message</message>
+        <error code="error_code" customNs:apperr="app_specific_error_code">
+            <customNs:message>UI Usable Message</customNs:message>
         </error>
     </response>
 
@@ -715,6 +729,7 @@ The following features strings MUST be available:
                                       attribute under `7.6 breakpoints`_ for
                                       further information.
     multiple_sessions         get|set {0|1}
+    encoding                  get|set {ISO8859-15, UTF-8, etc.}
     max_children              get|set max number of array or object
                                       children to initially retrieve
     max_data                  get|set max amount of variable data to
@@ -2052,17 +2067,18 @@ debugger engine to IDE::
 At times it may be desirable to receive a notification from the debugger
 engine for various events.  This notification tag allows for some simple
 data to be passed from the debugger engine to the IDE.  Customized
-implementations may add child elements for additional data.
+implementations may add child elements with their own XML namespace
+for additional data.
 
-As an example, this is useful for handling STDIN.  The debugger engine
+As an example, this is useful for handling STDIN. The debugger engine
 interrupts all STDIN reads, and when a read is done by the application, it sends
 a notification to the IDE.  The IDE is then able to do something to let the user
 know the application is waiting for input, such as placing a cursor in the
 debugger output window.
 
-A new feature name is introduced: notify_ok.  The IDE will call feature_set
-with the notify_ok name and a TRUE value (1).  This lets the debugger engine
-know that it can send notifications to the IDE.  If the IDE has not set this
+A new feature name is introduced: ``notify_ok``. The IDE will call feature_set
+with the ``notify_ok`` name and a TRUE value (1). This lets the debugger engine
+know that it can send notifications to the IDE. If the IDE has not set this
 value, or sets it to FALSE (0), then the debugger engine MUST NOT send
 notifications to the IDE. If the debugger engine does not understand the
 notify_ok feature, the call to feature_set should return an error with the
@@ -2072,8 +2088,8 @@ The debugger engine MUST NOT expect a notification to cause an IDE to behave
 in any particular way, or even to be handled by the IDE at all.
 
 A proxy may also use notifications, during a debug session, to let the IDE know
-about events that happen in the proxy.  To do this, the proxy will have to
-listen for feature_set commands and keep track of the values set, as well as
+about events that happen in the proxy. To do this, the proxy will have to
+listen for ``feature_set`` commands and keep track of the values set, as well as
 passing them through to the debugger engine.
 
 IDE initialization of notifications::
@@ -2082,9 +2098,11 @@ IDE initialization of notifications::
 
 debugger engine notifications to IDE::
 
-    <notify name="notification_name">
-    TEXT_NODE or CDATA
-    <custom.../>
+    <notify xmlns="urn:debugger_protocol_v1"
+            xmlns:customNs="https://example.com/xmlns/debug"
+            name="notification_name">
+        <customNs:.../>
+        TEXT_NODE or CDATA
     </notify>
 
 
@@ -2112,7 +2130,31 @@ added to the protocol in the future.
                         A debugger engine MAY send multiple notifications for
                         the same breakpoint ID, but only if their attributes
                         have changed (again).
+    error               notification occurs when the language engine issues
+                        debugging information.
     =================== =====================================================
+
+8.5.2 Error Notification
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+When a language engine creates a debugging notification, the debugger engine
+MAY convert this to a DBGp notification. As an example, this can be used to
+convert PHP's Notices and Warnings to DBGp notifications.
+
+With the ``notify_ok`` feature set, a notification like the following would be
+returned. This extensive XML snippet also displays how XML namespaces SHOULD
+BE used for providing additional information::
+
+    <notify name="error"
+            xmlns="urn:debugger_protocol_v1"
+            xmlns:xdebug="http://xdebug.org/dbgp/xdebug">
+        <xdebug:message filename="file:///tmp/xdebug-dbgp-test.php"
+                        lineno="5"
+                        type="Notice">
+            <![CDATA[Undefined variable: bar]]>
+        </xdebug:message>
+        <![CDATA[Notice: Undefined variable: bar in file:///tmp/xdebug-dbgp-test.php on line 5]]>
+    </notify>
 
 
 8.6 interact - Interactive Shell
@@ -2205,11 +2247,24 @@ where,
 A. ChangeLog
 ============
 
+2016-12-24 - draft 19
+
+- 8.5.2 Added section on Error Notifications
+
+2016-08-31
+
+- 8.3 Added -d stack depth parameter to eval command (Max Sherman)
+
 2016-06-07
 
 - 7.2.1, 7.6 Add 'resolved' attribute to breakpoint_set, breakpoint_get and
   breakpoint_list
 - 7.5 Added 'breakpoint_resolved' notification.
+
+2015-11-20
+
+- Fixed typos in IDE commands "feature-get" to "feature_get", "feature-set" to
+  "feature_set", and "context id" to "context_id".
 
 2015-11-11
 
@@ -2397,7 +2452,7 @@ A. ChangeLog
 
 - draft 11
 - 7.12 new section inserted as 7.12.  This section specifies common
-  data types, and how to map more specific data types to the the common
+  data types, and how to map more specific data types to the common
   types.
 - 7.11 two new optional attributes, classname and facet, that provide
   additional hints to the IDE about the nature of the property.  New
