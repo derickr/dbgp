@@ -492,6 +492,7 @@ Three base tags are used for the root tags: ::
             xmlns:customNs="http://example.com/dbgp/example"
             name="notification_name">
         <customNs:customElement/>
+        ...Base64 Data...
     </notify>
     [NULL]
 
@@ -2142,8 +2143,10 @@ MAY convert this to a DBGp notification. As an example, this can be used to
 convert PHP's Notices and Warnings to DBGp notifications.
 
 With the ``notify_ok`` feature set, a notification like the following would be
-returned. This extensive XML snippet also displays how XML namespaces SHOULD
-BE used for providing additional information::
+returned. As the notification comes straight out of the debugger engine, the
+data passed in this packet is base64 encoded. This extensive XML snippet also
+displays how XML namespaces SHOULD BE used for providing additional
+information::
 
     <notify name="error"
             xmlns="urn:debugger_protocol_v1"
@@ -2153,7 +2156,7 @@ BE used for providing additional information::
                         type="Notice">
             <![CDATA[Undefined variable: bar]]>
         </xdebug:message>
-        <![CDATA[Notice: Undefined variable: bar in file:///tmp/xdebug-dbgp-test.php on line 5]]>
+        Tm90aWNlOiBVbmRlZmluZWQgdmFyaWFibGU6IGJhciBpbiBmaWxlOi8vL3RtcC94ZGVidWctZGJncC10ZXN0LnBocCBvbiBsaW5lIDU=
     </notify>
 
 
