@@ -466,7 +466,15 @@ out in the other examples in this document.  The messages sent by the
 debugger engine must always be NULL terminated.  The XML document tag
 must always be present to provide XML version and encoding information.
 
-Three base tags are used for the root tags: ::
+For simplification, data length and NULL bytes will be left out of the
+rest of the examples in this document.
+
+Three base tags are used for the root tags:
+
+6.4.1 response
+^^^^^^^^^^^^^^
+
+This data packet is returned as response to continuation commands::
 
     data_length
     [NULL]
@@ -476,28 +484,42 @@ Three base tags are used for the root tags: ::
               transaction_id="transaction_id"/>
     [NULL]
 
+6.4.2 stream
+^^^^^^^^^^^^
+
+This data packet is sent when stream redirection is enabled through
+`7.15 stdout, stderr`_ redirections. As the data is base64 encoded, the
+``stream`` packet always has the ``encoding`` attribute set to ``base64``::
 
     data_length
     [NULL]
     <?xml version="1.0" encoding="UTF-8"?>
     <stream xmlns="urn:debugger_protocol_v1"
-            type="stdout|stderr">...Base64 Data...</stream>
+            type="stdout|stderr"
+            encoding="base64">
+        ...Base64 Data...
+    </stream>
     [NULL]
 
+6.4.3 notify
+^^^^^^^^^^^^
+
+This data packet is sent when `8.5 Notifications`_  are enabled through
+setting the ``notify_ok`` feature (see `7.2.1 Feature names`_). As the data is
+base64 encoded, the ``notify`` packet always has the ``encoding`` attribute
+set to ``base64``::
 
     data_length
     [NULL]
     <?xml version="1.0" encoding="UTF-8"?>
     <notify xmlns="urn:debugger_protocol_v1"
             xmlns:customNs="http://example.com/dbgp/example"
-            name="notification_name">
+            name="notification_name"
+            encoding="base64">
         <customNs:customElement/>
         ...Base64 Data...
     </notify>
     [NULL]
-
-For simplification, data length and NULL bytes will be left out of the
-rest of the examples in this document.
 
 6.5 debugger engine errors
 --------------------------
@@ -1736,7 +1758,7 @@ debugger engine ::
 Body of the request is null, body of the response is true or false.
 Upon receiving one of these redirect requests, the debugger engine
 will start to copy data bound for one of these streams to the IDE,
-using the message packets. 
+using `6.4.2 stream`_ message packets.
 
     ==      ===========================================================
     -c      [0|1|2] 0 - disable, 1 - copy data, 2 - redirection ::
@@ -2144,13 +2166,14 @@ convert PHP's Notices and Warnings to DBGp notifications.
 
 With the ``notify_ok`` feature set, a notification like the following would be
 returned. As the notification comes straight out of the debugger engine, the
-data passed in this packet is base64 encoded. This extensive XML snippet also
-displays how XML namespaces SHOULD BE used for providing additional
-information::
+data passed in this packet is base64 encoded (as indicated by the ``encoding``
+attribute on the ``notify`` tag. This extensive XML snippet also displays how
+XML namespaces SHOULD BE used for providing additional information::
 
-    <notify name="error"
-            xmlns="urn:debugger_protocol_v1"
-            xmlns:xdebug="http://xdebug.org/dbgp/xdebug">
+    <notify xmlns="urn:debugger_protocol_v1"
+            xmlns:xdebug="http://xdebug.org/dbgp/xdebug"
+            name="error"
+            encoding="base64">
         <xdebug:message filename="file:///tmp/xdebug-dbgp-test.php"
                         lineno="5"
                         type="Notice">
@@ -2249,6 +2272,13 @@ where,
 
 A. ChangeLog
 ============
+
+2017-02-06
+
+- Created separate sections (6.4.1-6.4.3) for each data packet format
+- Clarify that the ``stream`` and ``notify`` packets encode the data with
+  base64, and that that is signalled by the ``encoding="base64"`` attribute on
+  these elements
 
 2016-12-24 - draft 19
 
