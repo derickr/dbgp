@@ -713,10 +713,12 @@ The following features strings MUST be available:
     language_supports_threads get     [0|1]
     language_name             get     {eg. PHP, Python, Perl}
     language_version          get     {version string}
-    encoding                  get     current encoding in use by the debugger
+    encoding                  get|set current encoding in use by the debugger
                                       session. The encoding can either be
                                       (7-bit) ASCII, or a code set which
-                                      contains ASCII (Ex: ISO-8859-X, UTF-8)
+                                      contains ASCII (Ex: ISO-8859-X, UTF-8).
+                                      Use the ``supported_encodings`` feature
+                                      to query which encodings are supported
     protocol_version          get     {for now, always 1}
     supports_async            get     {for commands such as break}
     data_encoding             get     optional, allows to turn off
@@ -752,7 +754,6 @@ The following features strings MUST be available:
                                       attribute under `7.6 breakpoints`_ for
                                       further information.
     multiple_sessions         get|set {0|1}
-    encoding                  get|set {ISO8859-15, UTF-8, etc.}
     max_children              get|set max number of array or object
                                       children to initially retrieve
     max_data                  get|set max amount of variable data to
@@ -772,6 +773,9 @@ The following features strings MAY be available, if they are not, the IDE should
 assume that the feature is not available: 
 
     ========================= ======= ==========================================
+    supported_encodings       get     returns a comma separated list of all
+                                      supported encodings that can be set
+                                      through the ``encoding`` feature
     supports_postmortem       get     [0|1]  This feature lets an IDE know that
                                       there is benefit to continuing interaction
                                       during the STOPPING state (sect. 7.1).
@@ -2272,6 +2276,10 @@ where,
 
 A. ChangeLog
 ============
+
+2017-02-14
+
+- 7.2.1 Add the undocumented 'supported_encodings' feature
 
 2017-02-06
 
