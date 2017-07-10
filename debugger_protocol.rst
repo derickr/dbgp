@@ -191,13 +191,13 @@ in the init packet (see IDE_KEY in section 5.2).  The proxy would know if the
 IDE is running, since the IDE should have communicated with the proxy already,
 if it has not, the proxy could execute the IDE directly.
 
-To support proxies and jit deamons, the IDE should be configured with
-and ip:port pointing to the proxy/jit.  The IDE then makes a
+To support proxies and JIT daemons, the IDE should be configured with
+a port pointing to the proxy/JIT.  The IDE then makes a
 connection to the proxy when it starts and sends the following command: 
 
     IDE command ::
     
-        proxyinit -a ip:port -k ide_key -m [0|1]
+        proxyinit -p port -k ide_key -m [0|1]
 
     ==  ========================================================
     -p  the port that the IDE listens for debugging on.  The address
@@ -2276,6 +2276,11 @@ where,
 
 A. ChangeLog
 ============
+
+2017-07-10
+
+- 5.3 Fixed the text and example for proxyinit. It doesn't accept "-a ip:port"
+  but just "-p port".
 
 2017-02-14
 
