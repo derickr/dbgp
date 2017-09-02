@@ -2,7 +2,7 @@ DBGP - A common debugger protocol for languages and debugger UI communication
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 :Version: 1.0
-:Status: draft 19
+:Status: draft 20
 :Authors: - Shane Caraveo, ActiveState <shanec@ActiveState.com>
           - Derick Rethans <derick@derickrethans.nl>
 
@@ -2277,7 +2277,7 @@ where,
 A. ChangeLog
 ============
 
-2017-07-10
+2017-07-10 - draft 20
 
 - 5.3 Fixed the text and example for proxyinit. It doesn't accept "-a ip:port"
   but just "-p port".
