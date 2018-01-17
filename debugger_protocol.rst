@@ -2245,11 +2245,18 @@ When a language engine creates a debugging notification, the debugger engine
 MAY convert this to a DBGp notification. As an example, this can be used to
 convert PHP's Notices and Warnings to DBGp notifications.
 
-With the ``notify_ok`` feature set, a notification like the following would be
-returned. As the notification comes straight out of the debugger engine, the
-data passed in this packet is base64 encoded (as indicated by the ``encoding``
-attribute on the ``notify`` tag. This extensive XML snippet also displays how
-XML namespaces SHOULD BE used for providing additional information::
+With the ``notify_ok`` feature set, a notification like below COULD be
+returned by the debugger engine.
+
+An ``error`` notification MAY include additional information in the body of
+the ``notify`` element. As notifications come straight out of the debugger
+engine, the data body returned in this packet is of arbitrary encoding. If
+body data is present, the debugger engine MUST include which encoding is used
+through the ``encoding`` attribute on the ``notify`` tag. Currently, only the
+``base64`` encoding is supported.
+
+This extensive XML snippet displays through ``<xmlns:xdebug``, how XML
+namespaces SHOULD BE used for providing additional information::
 
     <notify xmlns="urn:debugger_protocol_v1"
             xmlns:xdebug="http://xdebug.org/dbgp/xdebug"
@@ -2353,6 +2360,10 @@ where,
 
 A. ChangeLog
 ============
+
+2018-01-17
+
+- 8.5.2 Clarify that the body (and encoding attribute) is optional.
 
 2018-01-09 - draft 21
 
