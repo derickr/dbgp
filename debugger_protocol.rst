@@ -799,11 +799,12 @@ The following features strings MUST be available:
                                       the breakpoint types that are supported.
                                       See `7.6 breakpoints`_ for a list of the
                                       6 defined breakpoint types.
-    resolved_breakpoints      get     returns whether the debugging engine
-                                      supports the notion of resolving
-                                      breakpoints. See the *resolved*
-                                      attribute under `7.6 breakpoints`_ for
-                                      further information.
+    resolved_breakpoints      get|set whether 'breakpoint_resolved'
+                                      notifications may be send by the
+                                      debugging engine in case it is
+                                      supported. See the *resolved* attribute
+                                      under `7.6 breakpoints`_ for further
+                                      information.
     multiple_sessions         get|set {0|1}
     max_children              get|set max number of array or object
                                       children to initially retrieve
@@ -1057,12 +1058,14 @@ applicable for some breakpoint types.
                         For dynamic languages, that load files as the
                         execution happens, this is useful for finding out
                         invalid breakpoints. This is a **read only** flag. It
-                        MUST be included when the debugger engine does support
-                        resolving of breakpoints, and it MUST NOT be included
-                        if the debugger engine has no notion of resolved
-                        breakpoints. An IDE can use the *resolved_breakpoints*
-                        feature to find out whether a debugging engine
-                        supports resolved breakpoints.
+                        MUST be included when the *resolved_breakpoints*
+                        feature has been activated, and it MUST NOT be
+                        included if the *resolved_breakpoints* feature has not
+                        been enabled. An IDE can use `7.2.2 feature_get`_ to
+                        enable the feature (if supported), and `7.2.2
+                        feature_get`_ to find out whether the debugging engine
+                        supports *resolved_breakpoints*, and whether it has
+                        been enabled.
     hit_count           Number of effective hits for the breakpoint in the
                         current session.  This value is maintained by the
                         debugger engine (a.k.a.  DBGP client).  A
@@ -2231,6 +2234,9 @@ added to the protocol in the future.
                         becomes a child element of the *notify* element
                         instead of *response*. The *resolved* attribute should
                         always be set to *resolved*.
+                        A debugger engine MUST NOT send this notification if
+                        *resolved_breakpoints* has not been enabled with
+                        `7.2.3 feature_set`_.
                         A debugger engine MAY send multiple notifications for
                         the same breakpoint ID, but only if their attributes
                         have changed (again).
@@ -2360,6 +2366,11 @@ where,
 
 A. ChangeLog
 ============
+
+2019-04-06
+
+- 7.2.1, 7.6 Change the 'breakpoint_resolved' notification to an opt-in
+  feature.
 
 2018-01-17
 
