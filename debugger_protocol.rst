@@ -1061,7 +1061,7 @@ applicable for some breakpoint types.
                         MUST be included when the *resolved_breakpoints*
                         feature has been activated, and it MUST NOT be
                         included if the *resolved_breakpoints* feature has not
-                        been enabled. An IDE can use `7.2.2 feature_get`_ to
+                        been enabled. An IDE can use `7.2.3 feature_set`_ to
                         enable the feature (if supported), and `7.2.2
                         feature_get`_ to find out whether the debugging engine
                         supports *resolved_breakpoints*, and whether it has
@@ -1173,7 +1173,8 @@ where,
     RESOLVED            *resolved* if the debugger engine knows the
                         breakpoint is valid, or *unresolved* otherwise. This
                         attribute is only present if the debugger engine
-                        implements the "resolving" feature
+                        implements the "resolving" feature, and the IDE has
+                        enabled it.
     ==================  =====================================================
 
 
@@ -2366,6 +2367,11 @@ where,
 
 A. ChangeLog
 ============
+
+2021-01-11
+
+- 7.6 Fixed duplicate mention of `7.2.2 feature_get`_, where one of them
+  should have been `7.2.3 feature_set`_.
 
 2019-04-06
 
