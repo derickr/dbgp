@@ -799,12 +799,6 @@ The following features strings MUST be available:
                                       the breakpoint types that are supported.
                                       See `7.6 breakpoints`_ for a list of the
                                       6 defined breakpoint types.
-    resolved_breakpoints      get|set whether 'breakpoint_resolved'
-                                      notifications may be send by the
-                                      debugging engine in case it is
-                                      supported. See the *resolved* attribute
-                                      under `7.6 breakpoints`_ for further
-                                      information.
     multiple_sessions         get|set {0|1}
     max_children              get|set max number of array or object
                                       children to initially retrieve
@@ -813,18 +807,30 @@ The following features strings MUST be available:
     max_depth                 get|set maximum depth that the debugger
                                       engine may return when sending arrays,
                                       hashs or object structures to the IDE.
-    extended_properties       get|set {0|1} Extended properties are required if
-                                      there are property names (name, fullname
-                                      or classname) that can not be represented
-                                      as valid XML attribute values (such as
-                                      ``&#0;``). See also
-                                      `7.11 Properties, variables and values`_.
     ========================= ======= ==========================================
 
 The following features strings MAY be available, if they are not, the IDE should
 assume that the feature is not available: 
 
     ========================= ======= ==========================================
+    breakpoint_details        get|set whether breakpoint information is
+                                      included in the response to a
+                                      continuation command, when the debugger
+                                      hits a 'break' state (for example, when
+                                      encountering a breakpoint)
+    extended_properties       get|set {0|1} Extended properties are required if
+                                      there are property names (name, fullname
+                                      or classname) that can not be represented
+                                      as valid XML attribute values (such as
+                                      ``&#0;``). See also
+                                      `7.11 Properties, variables and values`_.
+    notify_ok                 get|set [0|1]  See section `8.5 Notifications`_.
+    resolved_breakpoints      get|set whether 'breakpoint_resolved'
+                                      notifications may be send by the
+                                      debugging engine in case it is
+                                      supported. See the *resolved* attribute
+                                      under `7.6 breakpoints`_ for further
+                                      information.
     supported_encodings       get     returns a comma separated list of all
                                       supported encodings that can be set
                                       through the ``encoding`` feature
@@ -836,7 +842,6 @@ assume that the feature is not available:
                                       information on properties (eg. private
                                       members of classes, etc.)  Zero means that
                                       hidden members are not shown to the IDE.
-    notify_ok                 get|set [0|1]  See section `8.5 Notifications`_.
     ========================= ======= ==========================================
 
 Additionally, all protocol commands supported must have a string,
@@ -974,9 +979,38 @@ IDE ::
 debugger engine ::
 
     <response command="run"
-              status="starting"
-              reason="ok"
-              transaction_id="transaction_id"/>
+              transaction_id="transaction_id"
+              status="break"
+              reason="ok"/>
+
+A debugger engine may include extra information as sub element to `response`,
+as long as it is in its own name space. In the example below the debugger
+engine added the file and line location where the application is now paused::
+
+    <response xmlns="urn:debugger_protocol_v1" xmlns:xdebug="https://xdebug.org/dbgp/xdebug"
+              command="run"
+              transaction_id="transaction_id"
+              status="break"
+              reason="ok">
+        <xdebug:message filename="file://bug01312.inc" lineno="26"/>
+    </response>
+
+If the *breakpoint_details* feature is enabled with `7.2.3 feature_set`_ then
+the debugger information MAY also include a sub element to described the
+breakpoint. The *breakpoint* element has the same format and contents as the
+response to a `7.6.2 breakpoint_get`_ command::
+
+    <response command="run"
+              transaction_id="6"
+              status="break"
+              reason="ok">
+        <breakpoint id="BREAKPOINT_ID"
+                    type="call"
+                    function="breaking::staticMe"
+                    state="enabled"
+                    hit_count="2"
+                    hit_value="0"/>
+    </response>
 
 7.6 breakpoints
 ---------------
@@ -2366,6 +2400,11 @@ where,
 
 A. ChangeLog
 ============
+
+2021-05-04
+
+- 7.2.1, 7.5 Added 'breakpoint_details' feature to include breakpoint info
+  in the response to applicable continuation commands.
 
 2019-04-06
 
