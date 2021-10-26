@@ -1907,8 +1907,8 @@ debugger engine ::
 A IDE can query the debugger engine by using the feature_get command
 (see above).  The feature strings for extended commands defined in this
 specification are the same as the command itself.  For commands not
-listed in this specification, the prefix is 'xcmd_name'.  Vendor or language
-specific commands may be prefixed with 'xcmd_vendorname_name'.
+listed in this specification, the prefix is ``xcmd_``.  Vendor or language
+specific commands may be prefixed with ``xcmd_vendorname_``.
 
 8.1 stdin
 ---------
